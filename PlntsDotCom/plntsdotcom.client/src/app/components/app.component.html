@@ -1,0 +1,19 @@
+﻿<app-header></app-header>
+<main class="mx-auto max-w-[120rem] mt-1">
+    <div class="relative z-0 h-[248px] w-full md:mb-0 md:h-[650px]">
+        <!--<img src="../../header.jpg" > -->
+        <img style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=3552&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    </div>
+    <div class="grid-container flex h-full flex-row justify-between px-3 md:px-0">
+        <span class="flex-none self-end pb-3 xl:pb-8">
+            <span class="flex flex-none flex-col flex-nowrap justify-end"></span>
+        </span>
+        <div class="hidden md:flex"></div>
+    </div>
+    <h1 class="col-span-full my-6 text-center md:mb-14 md:mt-6 font-serif font-semibold text-3xl">Our top plants</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div *ngFor="let product of products">
+            <app-product-list-item [name]="product.name" [category]="product.category?.name" [price]="product.price" [imageUrl]="product.imageUrl"></app-product-list-item>
+        </div>
+    </div>
+</main>

@@ -5,7 +5,7 @@ using PlntsDotCom.Server.Data;
 namespace PlntsDotCom.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api")]
     public class ProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
