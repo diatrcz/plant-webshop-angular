@@ -11,9 +11,10 @@
         <div class="hidden md:flex"></div>
     </div>
     <h1 class="col-span-full my-6 text-center md:mb-14 md:mt-6 font-serif font-semibold text-3xl">Our top plants</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         <div *ngFor="let product of products">
-            <app-product-list-item [name]="product.name" [category]="product.category?.name" [price]="product.price" [imageUrl]="product.imageUrl"></app-product-list-item>
+            <app-product-list-item [productId]="product.id" [name]="product.name" [category]="product.category?.name" [price]="product.price" [imageUrl]="product.imageUrl"></app-product-list-item>
         </div>
     </div>
 </main>
+<router-outlet></router-outlet>
