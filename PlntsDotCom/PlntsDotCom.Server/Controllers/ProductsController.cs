@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlntsDotCom.Server.Data;
+using System.Net;
 
 namespace PlntsDotCom.Server.Controllers
 {
@@ -15,6 +16,19 @@ namespace PlntsDotCom.Server.Controllers
         public List<Product> Get()
         {
             return _context.Products.ToList();
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public ActionResult<Product> GetProduct(int id) {
+
+            var a = _context.Products.SingleOrDefault(m => m.Id == id);
+            if (a is null)
+            {
+                return NotFound();
+            }
+
+            return a;
         }
     }
 }

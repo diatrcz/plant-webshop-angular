@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product.type';
 
@@ -12,5 +12,9 @@ export class ProductService {
 
   fetchProductData(): Observable<Product[]> {
     return this.http.get<Product[]>('/api');
+  }
+
+  fetchProductDetails(productId: string): Observable<Product> {
+    return this.http.get<Product>('/api/' + productId);
   }
 }

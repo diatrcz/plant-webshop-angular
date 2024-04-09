@@ -7,25 +7,7 @@ import { ProductService } from '../services/product-service/product.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
-  public products: Product[] = [];
-
-  constructor(private productService: ProductService) {}
-
-  ngOnInit() {
-    this.getProducts();
-    
-  }
-
-  getProducts() {
-    this.productService.fetchProductData()
-      .subscribe(products => {
-        this.products = products;
-      }, error => {
-        console.error('Error fetching product data:', error);
-      });
-      console.log(this.products)
-  }
+export class AppComponent {
 
   title = 'plntsdotcom.client';
   
