@@ -10,6 +10,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { ProductListItemComponent } from './components/product-list-item/product-list-item.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
+import { PlantsListComponent } from './components/plants-list/plants-list.component';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { MainPageComponent } from './components/main-page/main-page.component';
     ProductListItemComponent,
     ProductDetailsComponent,
     MainPageComponent,
+    PlantsListComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,

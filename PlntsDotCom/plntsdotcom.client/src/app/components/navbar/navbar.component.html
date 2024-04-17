@@ -1,20 +1,26 @@
 <div class="grid-container hidden flex-row items-center justify-between gap-0 pt-5 lg:flex xl:gap-10">
   <ul class="hidden grow-0 list-none flex-row items-center justify-start gap-3 px-0 py-0 lg:flex xl:gap-10">
     <li data-headlessui-state="">
-      <button class="font-serif font-semibold hover:text-slate-400 xl:text-l whitespace-nowrap flex flex-row items-center gap-px" type="button" aria-expanded="false">
-        <span>Houseplants</span>
-      </button>
+      <a [routerLink]="['/shop', plantsProduct]">
+        <button class="font-serif font-semibold hover:text-slate-400 xl:text-l whitespace-nowrap flex flex-row items-center gap-px" type="button" aria-expanded="false">
+          <span>Houseplants</span>
+        </button>
+      </a>
     </li>
     <div style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></div>
     <li data-headlessui-state="">
-      <button class="font-serif font-semibold hover:text-slate-400 xl:text-l whitespace-nowrap flex flex-row items-center gap-px" type="button" aria-expanded="false">
-        <span>Pots</span>
-      </button>
+      <a [routerLink]="['/shop', potsProduct]">
+        <button class="font-serif font-semibold hover:text-slate-400 xl:text-l whitespace-nowrap flex flex-row items-center gap-px" type="button" aria-expanded="false">
+          <span>Pots</span>
+        </button>
+      </a>
     </li>
     <li data-headlessui-state="">
-      <button class="font-serif font-semibold hover:text-slate-400 xl:text-l whitespace-nowrap flex flex-row items-center gap-px" type="button" aria-expanded="false">
-        <span>Accessories</span>
-      </button>
+      <a [routerLink]="['/shop', accessoriesProduct]">
+        <button class="font-serif font-semibold hover:text-slate-400 xl:text-l whitespace-nowrap flex flex-row items-center gap-px" type="button" aria-expanded="false">
+          <span>Accessories</span>
+        </button>
+      </a>
     </li>
     <li data-headlessui-state="">
       <button class="font-serif font-semibold hover:text-slate-400 xl:text-l whitespace-nowrap flex flex-row items-center gap-px" type="button" aria-expanded="false">

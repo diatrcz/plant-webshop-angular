@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlntsDotCom.Server.Data;
+using PlntsDotCom.Server.Models;
+using PlntsDotCom.Server.Search;
 using System.Net;
 
 namespace PlntsDotCom.Server.Controllers
 {
     [ApiController]
-    [Route("api")]
+    [Route("api/products")]
     public class ProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -18,7 +20,7 @@ namespace PlntsDotCom.Server.Controllers
             return _context.Products.ToList();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("details/{id}")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public ActionResult<Product> GetProduct(int id) {
 
@@ -29,6 +31,24 @@ namespace PlntsDotCom.Server.Controllers
             }
 
             return a;
+        }
+
+        [HttpGet("shop/{categoryName}")]
+        public List<Product> GetProductsByCategory(string categoryName, [FromQuery] SearchModel searchModel)
+        {
+            int parentCategoryId = _context.Categories
+                                    .Where(c => c.Name == categoryName)
+                                    .Select(c => c.Id)
+                                    .SingleOrDefault();
+
+            var products = _context.Products
+                                    .Where(p => p.CategoryId == parentCategoryId || p.Category.ParentCategoryId == parentCategoryId)
+                                    .Where(searchModel.PriceMin is not null, p => p.Price >= searchModel.PriceMin)
+                                    .Where(searchModel.PriceMax is not null, p => p.Price <= searchModel.PriceMax)
+                                    .ToList();
+
+            return products;
+
         }
     }
 }

@@ -15,7 +15,7 @@ public class ProductSeedConfig : IEntityTypeConfiguration<Product>
                 Price = 1999,
                 Stock = 50,
                 Description = "Beautiful rose plant suitable for gardens or indoor decoration.",
-                CategoryId = 1
+                CategoryId = 4
             },
             new Product
             {

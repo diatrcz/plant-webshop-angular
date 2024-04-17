@@ -24,6 +24,5 @@ export class MainPageComponent implements OnInit {
       }, error => {
         console.error('Error fetching product data:', error);
       });
-      console.log(this.products)
   }
 }

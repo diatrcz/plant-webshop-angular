@@ -1,0 +1,16 @@
+<app-header></app-header>
+<main class="mx-auto max-w-[120rem] mt-20 mx-8">
+    <div class="flex flex-wrap">
+        <div class="w-full md:w-1/4">
+            <app-filter [productType]="categoryName" [filter]="filter" (submit)="loadProducts()"></app-filter>
+        </div>
+        <div class="w-full md:w-3/4">
+            <h1 class="col-span-full my-6 text-center md:mb-14 md:mt-6 font-serif font-semibold text-3xl">Shop all houseplants</h1>
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div *ngFor="let product of products">
+                    <app-product-list-item [productId]="product.id" [name]="product.name" [category]="product.category?.name" [price]="product.price" [imageUrl]="product.imageUrl"></app-product-list-item>
+                </div>
+            </div>
+        </div>
+    </div>
+<main>
