@@ -27,6 +27,7 @@ export class PlantsListComponent implements OnInit{
   loadRoute(): void {
     this.route.paramMap.subscribe(params => {
       const categoryName = params.get('categoryName');
+      debugger;
       if(categoryName != null) {
         this.categoryName = categoryName;
       }
