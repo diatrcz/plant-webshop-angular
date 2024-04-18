@@ -50,5 +50,31 @@ namespace PlntsDotCom.Server.Controllers
             return products;
 
         }
+
+        [HttpGet("search/{searchQuery}")]
+        public List<Product> SearchProducts(string searchQuery)
+        {
+            var queries = searchQuery.Split(' ');
+
+            var products = new List<Product>();
+
+            foreach (string query in queries)
+            {
+                var list = _context.Products
+                                .Where(p => p.Name == query || p.Category.Name == query || p.Category.ParentCategory.Name == query)
+                                .ToList();
+
+                foreach (var product in list)
+                {
+                    if (!products.Any(p => p.Id == product.Id))
+                    {
+                        products.Add(product);
+                    }
+                }
+            }
+
+            return products;
+        }
+
     }
 }

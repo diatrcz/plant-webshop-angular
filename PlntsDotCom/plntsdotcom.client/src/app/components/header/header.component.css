@@ -1,0 +1,8 @@
+.dialog {
+    display: none;
+}
+  
+.dialog.visible {
+   display: block;
+}
+  

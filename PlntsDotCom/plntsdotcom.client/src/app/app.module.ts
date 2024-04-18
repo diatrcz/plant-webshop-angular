@@ -12,6 +12,7 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { PlantsListComponent } from './components/plants-list/plants-list.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { SearchListComponent } from './components/search-list/search-list.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FilterComponent } from './components/filter/filter.component';
     MainPageComponent,
     PlantsListComponent,
     FilterComponent,
+    SearchListComponent,
   ],
   imports: [
     BrowserModule,

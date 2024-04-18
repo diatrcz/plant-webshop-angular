@@ -24,4 +24,8 @@ export class ProductService {
     { params: new HttpParams({ fromObject: <any>filter }) }
     );
   }
+
+  searchProducts(queryString: string): Observable<Product[]> {
+    return this.http.get<Product[]>('api/products/search/' + queryString);
+  }
 }
