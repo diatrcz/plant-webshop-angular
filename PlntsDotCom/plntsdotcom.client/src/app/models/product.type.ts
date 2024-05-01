@@ -11,4 +11,5 @@ export interface Product {
   category?: Category | null;
   orderedItems: OrderedItem[];
   imageUrl?: string | null;
+  quantity?: number | null;
 }

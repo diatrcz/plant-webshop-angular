@@ -4,6 +4,8 @@ import { Product } from '../../models/product.type';
 import { ProductService } from '../../services/product-service/product.service';
 import { CategoryService } from '../../services/category-service/category.service';
 import { Category } from '../../models/category.type';
+import { ShoppingCartService } from '../../services/shoppingcart-service/shopping-cart.service';
+import { CartItem } from '../../models/cartitem.type';
 
 @Component({
   selector: 'app-product-details',
@@ -20,7 +22,8 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private cartService: ShoppingCartService
   ) { }
 
   ngOnInit(): void {
@@ -67,4 +70,15 @@ export class ProductDetailsComponent implements OnInit {
   toggleClick() {
     this.isButtonRed = !this.isButtonRed;
   }
+
+  addToCart(): void {
+    if (!this.product) return;
+    const cartItem: CartItem = {
+      id: this.product.id,
+      quantity: this.quantity
+    };
+    this.cartService.addToCart(cartItem);
+    this.quantity = 1;
+  }
+
 }

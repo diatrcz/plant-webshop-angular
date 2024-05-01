@@ -13,6 +13,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { PlantsListComponent } from './components/plants-list/plants-list.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { SearchListComponent } from './components/search-list/search-list.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SearchListComponent } from './components/search-list/search-list.compon
     PlantsListComponent,
     FilterComponent,
     SearchListComponent,
+    ShoppingCartComponent,
   ],
   imports: [
     BrowserModule,

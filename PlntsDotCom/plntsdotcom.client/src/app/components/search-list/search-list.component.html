@@ -1,13 +1,15 @@
 <app-header></app-header>
-<div class="grid-container flex h-full flex-row justify-between px-3 md:px-0">
-    <span class="flex-none self-end pb-3 xl:pb-8">
-        <span class="flex flex-none flex-col flex-nowrap justify-end"></span>
-    </span>
-    <div class="hidden md:flex"></div>
-</div>
-<h1 class="col-span-full my-6 text-center md:mb-14 md:mt-6 font-serif font-semibold text-3xl">Searching "{{searchQuery}}" </h1>
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-    <div *ngFor="let product of products">
-        <app-product-list-item [productId]="product.id" [name]="product.name" [category]="product.category?.name" [price]="product.price" [imageUrl]="product.imageUrl"></app-product-list-item>
+<main class="mx-auto max-w-[90rem] mt-20 mx-8">
+    <div class="grid-container flex h-full flex-row justify-between px-3 md:px-0">
+        <span class="flex-none self-end pb-3 xl:pb-8">
+            <span class="flex flex-none flex-col flex-nowrap justify-end"></span>
+        </span>
+        <div class="hidden md:flex"></div>
     </div>
-</div>
+    <h1 class="col-span-full my-6 text-center md:mb-14 md:mt-6 font-serif font-semibold text-3xl">Searching "{{searchQuery}}" </h1>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div *ngFor="let product of products">
+            <app-product-list-item [productId]="product.id" [name]="product.name" [category]="product.category?.name" [price]="product.price" [imageUrl]="product.imageUrl"></app-product-list-item>
+        </div>
+    </div>
+</main>
