@@ -25,6 +25,7 @@ export class SearchListComponent {
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['query'] || '';
       console.log('Search query:', this.searchQuery);
+      this.fetchProducts();
     });
   }
 

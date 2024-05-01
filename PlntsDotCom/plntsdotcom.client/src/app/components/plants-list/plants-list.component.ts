@@ -21,15 +21,14 @@ export class PlantsListComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadRoute();
-    this.loadProducts();
   }
 
   loadRoute(): void {
     this.route.paramMap.subscribe(params => {
       const categoryName = params.get('categoryName');
-      debugger;
       if(categoryName != null) {
         this.categoryName = categoryName;
+        this.loadProducts();
       }
     });
   }
