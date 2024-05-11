@@ -1,18 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace PlntsDotCom.Server.Data;
-public class User
+public class User: IdentityUser
 {
-    public int? Id { get; set; }
+    //public int? Id { get; set; }
 
-    [Required]
-    public string Username { get; set; } = "abc";
+    //[Required]
+    //public string Username { get; set; } = "abc";
 
-    [Required]
-    public string Email { get; set; } = "abc";
+    //[Required]
+    //public string Email { get; set; } = "abc";
 
-    [Required]
-    public string Password { get; set; } = "abc";
+    //[Required]
+    //public string Password { get; set; } = "abc";
 
     [Required]
     public UserType Type { get; set; }

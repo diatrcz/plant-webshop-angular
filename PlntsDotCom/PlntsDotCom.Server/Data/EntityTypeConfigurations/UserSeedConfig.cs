@@ -10,19 +10,19 @@ public class UserSeedConfig : IEntityTypeConfiguration<User>
         builder.HasData(
             new User
             {
-                Id = 1,
-                Username = "user1",
+                Id = "a",
+                UserName = "user1",
                 Email = "user1@example.com",
-                Password = "password1",
+                PasswordHash = "password1",
                 Type = UserType.LoggedInUser,
                 Address = "123 Main St, City, Country"
             },
             new User
             {
-                Id = 2,
-                Username = "user2",
+                Id = "b",
+                UserName = "user2",
                 Email = "user2@example.com",
-                Password = "password2",
+                PasswordHash = "password2",
                 Type = UserType.LoggedInUser,
                 Address = "456 Elm St, City, Country"
             }

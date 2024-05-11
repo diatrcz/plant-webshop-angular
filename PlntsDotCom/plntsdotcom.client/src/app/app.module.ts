@@ -14,6 +14,9 @@ import { PlantsListComponent } from './components/plants-list/plants-list.compon
 import { FilterComponent } from './components/filter/filter.component';
 import { SearchListComponent } from './components/search-list/search-list.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
     FilterComponent,
     SearchListComponent,
     ShoppingCartComponent,
+    LoginComponent,
+    RegisterComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
