@@ -4,18 +4,8 @@ using System.ComponentModel.DataAnnotations;
 namespace PlntsDotCom.Server.Data;
 public class User: IdentityUser
 {
-    //public int? Id { get; set; }
 
     //[Required]
-    //public string Username { get; set; } = "abc";
-
-    //[Required]
-    //public string Email { get; set; } = "abc";
-
-    //[Required]
-    //public string Password { get; set; } = "abc";
-
-    [Required]
     public UserType Type { get; set; }
 
     public string? Address { get; set; }
