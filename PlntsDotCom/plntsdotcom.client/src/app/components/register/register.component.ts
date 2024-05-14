@@ -1,20 +1,30 @@
 import { Component } from '@angular/core';
+import { UserService } from '../../services/user-service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  name!: string;
   email!: string;
   password!: string;
+  firstName!: string;
+  lastName!: string;
 
-  constructor() {}
+  constructor(private userService: UserService, private router: Router) {}
 
   register() {
-    console.log('Name:', this.name);
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
+    this.userService.register(this.email, this.password, this.firstName, this.lastName)
+      .subscribe(
+        response => {
+          console.log('Registration successful:', response);
+          this.router.navigate(['/main']);
+        },
+        error => {
+          console.error('Registration failed:', error);
+        }
+      );
   }
 }

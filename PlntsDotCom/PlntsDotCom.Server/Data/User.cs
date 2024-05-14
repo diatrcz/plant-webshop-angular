@@ -5,8 +5,12 @@ namespace PlntsDotCom.Server.Data;
 public class User: IdentityUser
 {
 
-    //[Required]
+    [Required]
     public UserType Type { get; set; }
+
+    public string? FirstName { get; set; }
+
+    public string? LastName { get; set; }
 
     public string? Address { get; set; }
 

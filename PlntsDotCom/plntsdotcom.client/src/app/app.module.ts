@@ -17,6 +17,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     LoginComponent,
     RegisterComponent,
     UserProfileComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

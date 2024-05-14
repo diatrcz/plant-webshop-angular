@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +10,13 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   dialogVisible: boolean = false;
   searchInput: string = '';
+  isLoggedIn: boolean;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, 
+              private authService: AuthService) {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    console.log(this.isLoggedIn);
+  }
 
   navigateToRoot() {
     this.router.navigate(['/']);
