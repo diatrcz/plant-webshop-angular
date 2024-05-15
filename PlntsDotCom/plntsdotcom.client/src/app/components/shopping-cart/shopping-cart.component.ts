@@ -3,6 +3,8 @@ import { ShoppingCartService } from '../../services/shoppingcart-service/shoppin
 import { CartItem } from '../../models/cartitem.type';
 import { Product } from '../../models/product.type';
 import { ProductService } from '../../services/product-service/product.service';
+import { AuthService } from '../../services/auth-service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -13,11 +15,16 @@ export class ShoppingCartComponent implements OnInit {
   cartItems: CartItem[] = [];
   products: Product [] = [];
   total: number = 0;
+  isLoggedIn: boolean;
 
   constructor(
     private cartService: ShoppingCartService,
-    private productService: ProductService
-  ) {}
+    private productService: ProductService,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.isLoggedIn = authService.isLoggedIn();
+  }
 
   ngOnInit(): void {
     this.loadCartItems(); 
@@ -49,6 +56,15 @@ export class ShoppingCartComponent implements OnInit {
         this.total += this.products[index].price * change;
       }
     }
-  }  
+  }
+
+  placeOrder() {
+    if(this.isLoggedIn) {
+      console.log("Ok");
+    }
+    else {
+      this.router.navigate(['/login-user']);
+    }
+  }
 
 }

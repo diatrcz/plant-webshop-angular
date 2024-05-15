@@ -19,4 +19,8 @@ export class UserService {
   logout() {
     return this.http.post<any>('api/User/logout', {}); 
   }
+
+  getUserName() {
+    return this.http.get<any>('api/User/name');
+  }
 }

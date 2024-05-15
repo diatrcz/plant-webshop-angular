@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../models/product.type';
 import { ProductService } from '../../services/product-service/product.service';
 import { CategoryService } from '../../services/category-service/category.service';
 import { Category } from '../../models/category.type';
 import { ShoppingCartService } from '../../services/shoppingcart-service/shopping-cart.service';
 import { CartItem } from '../../models/cartitem.type';
+import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'app-product-details',
@@ -18,13 +19,18 @@ export class ProductDetailsComponent implements OnInit {
   category!: Category;
   quantity: number = 1;
   isButtonRed: boolean = false;
+  isLoggedIn: boolean;
 
   constructor(
     private route: ActivatedRoute, 
     private productService: ProductService,
     private categoryService: CategoryService,
-    private cartService: ShoppingCartService
-  ) { }
+    private cartService: ShoppingCartService,
+    private authService: AuthService,
+    private router: Router
+  ) { 
+    this.isLoggedIn = authService.isLoggedIn();
+  }
 
   ngOnInit(): void {
     this.loadRoute();
@@ -68,7 +74,12 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   toggleClick() {
-    this.isButtonRed = !this.isButtonRed;
+    if(this.isLoggedIn) {
+      this.isButtonRed = !this.isButtonRed;
+    }
+    else {
+      this.router.navigate(['/login-user']);
+    }
   }
 
   addToCart(): void {

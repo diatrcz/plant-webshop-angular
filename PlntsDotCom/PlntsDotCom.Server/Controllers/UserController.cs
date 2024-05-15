@@ -41,7 +41,7 @@ namespace PlntsDotCom.Server.Controllers
                 return NotFound(); 
             }
 
-            return Ok(userName); 
+            return Ok(new { userName }); 
         }
 
         [HttpPost("logout")]
@@ -49,7 +49,7 @@ namespace PlntsDotCom.Server.Controllers
         {
             HttpContext.SignOutAsync();
 
-            return Ok("Logged out successfully");
+            return Ok();
         }
     }
 }

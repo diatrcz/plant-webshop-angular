@@ -27,6 +27,7 @@ export class LoginComponent {
         response => {
           const { userId, accessToken, refreshToken } = response;
           this.authService.setLoggedInUser(userId, accessToken, refreshToken);
+          console.log(response);
           this.router.navigate(['/main']);
           this.notificationService.showSuccess('Login successful');
         },

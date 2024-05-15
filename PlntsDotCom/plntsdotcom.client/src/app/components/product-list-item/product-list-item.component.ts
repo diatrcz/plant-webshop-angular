@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Category } from '../../models/category.type';
+import { AuthService } from '../../services/auth-service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list-item',
@@ -13,10 +15,18 @@ export class ProductListItemComponent {
   @Input() price!: number;
   @Input() category?: string | null;
   isButtonRed: boolean = false;
+  isLoggedIn: boolean;
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) {
+    this.isLoggedIn = this.authService.isLoggedIn();
+   }
 
   toggleClick() {
-    this.isButtonRed = !this.isButtonRed;
+    if(this.isLoggedIn) {
+      this.isButtonRed = !this.isButtonRed;
+    }
+    else {
+      this.router.navigate(['/login-user']);
+    }
   }
 }

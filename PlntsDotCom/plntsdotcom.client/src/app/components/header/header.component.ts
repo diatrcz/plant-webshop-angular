@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service/auth.service';
+import { UserService } from '../../services/user-service/user.service';
 
 @Component({
   selector: 'app-header',
@@ -11,11 +12,27 @@ export class HeaderComponent {
   dialogVisible: boolean = false;
   searchInput: string = '';
   isLoggedIn: boolean;
+  username: string = '';
 
   constructor(private router: Router, 
-              private authService: AuthService) {
+              private authService: AuthService,
+              private userService: UserService) {
     this.isLoggedIn = this.authService.isLoggedIn();
     console.log(this.isLoggedIn);
+    if(this.isLoggedIn) {
+      this.getUserName();
+    }
+  }
+
+  getUserName() {
+    this.userService.getUserName().subscribe(
+      response => {
+        this.username = response.userName;
+      },
+      error => {
+        console.error('Get username failed:', error);
+      }
+    );
   }
 
   navigateToRoot() {
