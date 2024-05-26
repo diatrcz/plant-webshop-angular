@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlntsDotCom.Server.Data;
@@ -13,7 +14,11 @@ namespace PlntsDotCom.Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public UserController(ApplicationDbContext context) => _context = context;
+        private readonly SignInManager<User> _signInManager;
+        public UserController(ApplicationDbContext context, SignInManager<User> signInManager) {
+            _context = context;
+            _signInManager = signInManager;
+        }
 
         [HttpGet("is-loggedin")]
         public IActionResult IsLoggedIn()
@@ -45,9 +50,10 @@ namespace PlntsDotCom.Server.Controllers
         }
 
         [HttpPost("logout")]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.SignOutAsync();
+            await _signInManager.SignOutAsync();
+            //await HttpContext.SignOutAsync();
 
             return Ok();
         }
