@@ -8,7 +8,11 @@ export class ShoppingCartService {
   constructor() { }
 
    saveCartToLocalStorage(cartItems: CartItem[]): void {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    try {
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    } catch (e) {
+      console.error('Error saving to localStorage', e);
+    }
   }
 
   getCartFromLocalStorage(): CartItem[] {

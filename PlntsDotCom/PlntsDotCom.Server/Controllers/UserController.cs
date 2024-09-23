@@ -53,7 +53,6 @@ namespace PlntsDotCom.Server.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            //await HttpContext.SignOutAsync();
 
             return Ok();
         }

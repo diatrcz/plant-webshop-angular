@@ -1,32 +1,43 @@
 <app-header></app-header>
 <main class="mx-auto max-w-[90rem] mt-20 mx-8">
-    <div *ngFor="let product of products" class="cart-item border-b border-gray-300 pb-4 mb-4 md:flex md:items-center">
-        <div class="md:mr-4 md:mb-0">
-            <img src="{{ product.imageUrl ? product.imageUrl : 'https://placehold.co/500x700' }}" alt="Product Image" class="w-20 h-24">
+    <div *ngIf="cartItems && cartItems.length > 0">
+        <div *ngFor="let product of products" class="cart-item border-b border-gray-300 pb-4 mb-4 md:flex md:items-center">
+            <div class="md:mr-4 md:mb-0">
+                <img src="{{ product.imageUrl ? product.imageUrl : 'https://placehold.co/500x700' }}" alt="Product Image" class="w-20 h-24">
+            </div>
+            <div class="info md:flex-1 md:mr-4 md:mb-0 mb-4">
+                <h3 class="text-lg font-semibold">{{product.name}}</h3>
+                <p class="text-gray-600">{{product.category?.name}}</p>
+            </div>
+            <div class="quantity md:mr-4 md:mb-0 mb-4">
+                <button class="size-button w-8 h-8 bg-gray-300 rounded-full focus:outline-none mr-2" (click)="updateQuantity(-1, product.id)">-</button>
+                <input type="number" [(ngModel)]="product.quantity" min="1" class="px-2 py-1 border border-transparent text-center bg-transparent w-16" disabled>
+                <button class="size-button w-8 h-8 bg-gray-300 rounded-full focus:outline-none ml-2" (click)="updateQuantity(1, product.id)">+</button>
+            </div>
+            <div class="price mb-4 md:mb-0">
+                <p class="font-semibold">{{product.price}} Ft</p>
+            </div>
+            <div (click)="removeItem(product.id)">
+                <button class="m-2 gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="28px" width="28px" class="text-gray-300" viewBox="0 -960 960 960"  fill="currentColor"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-        <div class="info md:flex-1 md:mr-4 md:mb-0 mb-4">
-            <h3 class="text-lg font-semibold">{{product.name}}</h3>
-            <p class="text-gray-600">{{product.category?.name}}</p>
+        <div class="total-price text-lg font-semibold mt-4">
+            Total: {{total}} Ft
         </div>
-        <div class="quantity md:mr-4 md:mb-0 mb-4">
-            <button class="size-button w-8 h-8 bg-gray-300 rounded-full focus:outline-none mr-2" (click)="updateQuantity(-1, product.id)">-</button>
-            <input type="number" [(ngModel)]="product.quantity" min="1" class="px-2 py-1 border border-transparent text-center bg-transparent w-16" disabled>
-            <button class="size-button w-8 h-8 bg-gray-300 rounded-full focus:outline-none ml-2" (click)="updateQuantity(1, product.id)">+</button>
-        </div>
-        <div class="price mb-4 md:mb-0">
-            <p class="font-semibold">{{product.price}} Ft</p>
-        </div>
-        <button class="md:absolute top-0 right-0 w-6 h-6 bg-gray-300 rounded-full focus:outline-none hidden md:block">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
+        
+        <button (click)="placeOrder()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+            Place Order
         </button>
     </div>
-    <div class="total-price text-lg font-semibold mt-4">
-        Total: {{total}} Ft
+    <div *ngIf="cartItems && cartItems.length === 0">
+        <h2 class="text-xl font-semibold mb-4">Your shopping cart is empty!</h2>
+        <p class="mb-6">Go browse around the products to add some items.</p>
+        <a href="/main" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+            Browse Items
+        </a>
     </div>
-    
-    <button (click)="placeOrder()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-        Place Order
-    </button>
 </main>

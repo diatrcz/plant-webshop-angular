@@ -40,11 +40,15 @@ export class ShoppingCartComponent implements OnInit {
         this.total += product.quantity! * product.price;
       });
     });
+
+    this.cartItems = this.cartItems.sort((a: CartItem, b: CartItem) => a.id - b.id);
   }
 
-  removeItem(index: number): void {
+  removeItem(productId: number): void {
+    const index = this.products.findIndex(product => product.id === productId);
     this.cartItems.splice(index, 1);
-    this.cartService.saveCartToLocalStorage(this.cartItems); 
+    this.cartService.saveCartToLocalStorage(this.cartItems);
+    window.location.reload();
   }
 
   updateQuantity(change: number, productId: number): void {
@@ -54,6 +58,19 @@ export class ShoppingCartComponent implements OnInit {
       if (updatedQuantity >= 0 && updatedQuantity <= this.products[index].stock!) {
         this.products[index].quantity = updatedQuantity;
         this.total += this.products[index].price * change;
+
+        const cartItemIndex = this.cartItems.findIndex(item => item.id === productId);
+        if (cartItemIndex !== -1) {
+          this.cartItems[cartItemIndex].quantity = updatedQuantity;
+        }
+
+        if(this.products[index].quantity === 0) {
+          this.removeItem(productId);
+        }
+        else {
+          this.cartService.saveCartToLocalStorage(this.cartItems);
+        }
+        
       }
     }
   }
