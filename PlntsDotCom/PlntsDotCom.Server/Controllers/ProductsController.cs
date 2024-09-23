@@ -64,5 +64,32 @@ namespace PlntsDotCom.Server.Controllers
             return results;
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingProduct = await _context.Products.FindAsync(product.Id);
+                if (existingProduct == null)
+                {
+                    return NotFound();
+                }
+
+                existingProduct.Name = product.Name;
+                existingProduct.Price = product.Price;
+                existingProduct.Stock = product.Stock;
+                existingProduct.Description = product.Description;
+                existingProduct.ImageUrl = product.ImageUrl;
+
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+
+            return BadRequest(ModelState); 
+        }
+
+
+
     }
 }

@@ -28,4 +28,8 @@ export class ProductService {
   searchProducts(queryString: string): Observable<Product[]> {
     return this.http.get<Product[]>('api/products/search/' + queryString);
   }
+  
+  updateProduct(product: Product): Observable<any> {
+    return this.http.put<any>('api/product/' + product.id, product);
+  }
 }

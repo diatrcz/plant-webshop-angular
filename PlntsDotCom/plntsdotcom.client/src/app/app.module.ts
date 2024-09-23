@@ -19,6 +19,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { AuthInterceptor } from './auth.interceptor';
+import { ProductEditComponent } from './components/product-edit/product-edit.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AuthInterceptor } from './auth.interceptor';
     RegisterComponent,
     UserProfileComponent,
     NotificationComponent,
+    ProductEditComponent,
   ],
   imports: [
     BrowserModule,

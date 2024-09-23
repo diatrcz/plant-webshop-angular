@@ -17,4 +17,8 @@ export class CategoryService {
   fetchChildrenCategories(parentCategoryName: string): Observable<Category[]> {
     return this.http.get<Category[]>('api/category/children/' + parentCategoryName);
   }
+
+  fetchParentCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>('api/category/parentCategories');
+  }
 }

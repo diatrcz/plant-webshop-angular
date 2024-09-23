@@ -36,5 +36,15 @@ namespace PlntsDotCom.Server.Controllers
                                     .ToList();
             return categories;
         }
+
+        [HttpGet("parentCategories")]
+        public List<Category> GetParentCategories()
+        {  
+            var categories = _context.Categories
+                .Where(c => c.ParentCategoryId == null)
+                .ToList();
+
+            return categories;
+        }
     }
 }
