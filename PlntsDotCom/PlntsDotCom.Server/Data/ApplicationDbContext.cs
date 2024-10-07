@@ -4,14 +4,14 @@ using PlntsDotCom.Server.Data.EntityTypeConfigurations;
 
 namespace PlntsDotCom.Server.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : base(options)
     {
     }
 
-    public DbSet<User> Users => Set<User>();
+// public DbSet<User> Users => Set<User>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Invoice> Invoices => Set<Invoice>();
     public DbSet<Order> Orders => Set<Order>();
