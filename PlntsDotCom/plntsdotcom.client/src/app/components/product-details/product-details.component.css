@@ -1,11 +1,14 @@
+.size-button {
+    transition: background-color 0.3s ease, border 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.size-button:hover {
+    background-color: #d1d5db; 
+    border-color: black;
+}
+
 .size-button:focus {
     outline: none;
-}
-
-.size-button:focus-visible {
-    box-shadow: 0 0 0 2px #3182ce; 
-}
-
-.size-button:active {
-    background-color: #4a5568; 
+    border-color: black; 
 }

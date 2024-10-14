@@ -20,6 +20,7 @@ export class ProductDetailsComponent implements OnInit {
   quantity: number = 1;
   isButtonRed: boolean = false;
   isLoggedIn: boolean;
+  isDeleteDialogOpen = false;
 
   constructor(
     private route: ActivatedRoute, 
@@ -90,6 +91,26 @@ export class ProductDetailsComponent implements OnInit {
     };
     this.cartService.addToCart(cartItem);
     this.quantity = 1;
+  }
+
+  openDeleteDialog() {
+    this.isDeleteDialogOpen = true;
+  }
+
+  closeDeleteDialog() {
+    this.isDeleteDialogOpen = false;
+  }
+
+  deleteProduct() {
+    this.productService.deleteProduct(this.product.id).subscribe(
+      () => {
+        alert('Product deleted successfully');
+        this.router.navigate(['/products']);
+      },
+      (error) => console.error('Error deleting product', error)
+    );
+
+    this.router.navigate(['/main']);
   }
 
 }

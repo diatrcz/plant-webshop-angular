@@ -67,14 +67,17 @@ export class ProductEditComponent implements OnInit {
   }
 
   updateProduct() {
+    console.log(this.product);
+  
     this.productService.updateProduct(this.product).subscribe(response => {
       if (response) {
+        alert('Product edited successfully');
         console.log("Product update OK");
       } else {
         console.error("Error during product update");
       }
     });
-
+  
     this.router.navigate(['/product', this.productId]);
   }
 }
