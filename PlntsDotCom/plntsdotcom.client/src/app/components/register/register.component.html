@@ -3,39 +3,81 @@
     <div>
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Create an account</h2>
     </div>
-    <form class="mt-8 space-y-6" (ngSubmit)="register()">
-      <input type="hidden" name="remember" value="true">
+    <form [formGroup]="registerForm" (ngSubmit)="register()" class="mt-8 space-y-6">
       <div class="rounded-md shadow-sm -space-y-px">
+        
+        <!-- First Name Field -->
         <div>
           <label for="firstName" class="sr-only">First Name</label>
-          <input id="firstName" name="firstName" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="First Name" [(ngModel)]="firstName">
+          <input id="firstName" formControlName="firstName" type="text"
+                 class="appearance-none rounded-none relative block w-full px-3 py-2 border
+                 border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none 
+                 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                 [ngClass]="{'border-red-500': firstName?.invalid && (firstName?.dirty || firstName?.touched)}"
+                 placeholder="First Name">
+          <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="text-red-500 text-xs mt-1">
+            <small *ngIf="firstName?.errors?.['required']">First Name is required.</small>
+          </div>
         </div>
+        
+        <!-- Last Name Field -->
         <div>
           <label for="lastName" class="sr-only">Last Name</label>
-          <input id="lastName" name="lastName" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Last Name" [(ngModel)]="lastName">
+          <input id="lastName" formControlName="lastName" type="text"
+                 class="appearance-none rounded-none relative block w-full px-3 py-2 border 
+                 border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none 
+                 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                 [ngClass]="{'border-red-500': lastName?.invalid && (lastName?.dirty || lastName?.touched)}"
+                 placeholder="Last Name">
+          <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="text-red-500 text-xs mt-1">
+            <small *ngIf="lastName?.errors?.['required']">Last Name is required.</small>
+          </div>
         </div>
+        
+        <!-- Email Field -->
         <div>
-          <label for="email" class="sr-only">Email address</label>
-          <input id="email" name="email" type="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" [(ngModel)]="email">
+          <label for="email" class="sr-only">Email Address</label>
+          <input id="email" formControlName="email" type="email"
+                 class="appearance-none rounded-none relative block w-full px-3 py-2 border 
+                 border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none 
+                 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                 [ngClass]="{'border-red-500': email?.invalid && (email?.dirty || email?.touched)}"
+                 placeholder="Email Address">
+          <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-red-500 text-xs mt-1">
+            <small *ngIf="email?.errors?.['required']">Email is required.</small>
+            <small *ngIf="email?.errors?.['email']">Please enter a valid email address.</small>
+          </div>
         </div>
+        
+        <!-- Password Field -->
         <div>
           <label for="password" class="sr-only">Password</label>
-          <input id="password" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password" [(ngModel)]="password">
+          <input id="password" formControlName="password" type="password"
+                 class="appearance-none rounded-none relative block w-full px-3 py-2 border 
+                 border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none 
+                 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                 [ngClass]="{'border-red-500': password?.invalid && (password?.dirty || password?.touched)}"
+                 placeholder="Password">
+          <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="text-red-500 text-xs mt-1">
+            <small *ngIf="password?.errors?.['required']">Password is required.</small>
+            <small *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters long.</small>
+            <small *ngIf="password?.errors?.['pattern']">Password must include at least one number and one special character.</small>
+          </div>
         </div>
+        
       </div>
 
+      <!-- Register Button -->
       <div>
-        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-            <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-              <path d="M2 5a3 3 0 013-3h10a3 3 0 013 3v9a3 3 0 01-3 3H5a3 3 0 01-3-3V5zm3-2a2 2 0 00-2 2v9a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5z" />
-            </svg>
-          </span>
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm 
+        font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 
+        focus:ring-offset-2 focus:ring-indigo-500">
           Register
         </button>
       </div>
     </form>
+
+    <!-- Login Redirect -->
     <div class="mt-4">
       <p class="text-sm text-gray-600">
         Already have an account?

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlntsDotCom.Server.Data;
+using PlntsDotCom.Server.Models;
 using System.Security.Claims;
 
 namespace PlntsDotCom.Server.Controllers
@@ -15,9 +16,42 @@ namespace PlntsDotCom.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<User> _signInManager;
-        public UserController(ApplicationDbContext context, SignInManager<User> signInManager) {
+        private readonly UserManager<User> _userManager;
+        public UserController(ApplicationDbContext context, SignInManager<User> signInManager, UserManager<User> userManager) {
             _context = context;
             _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] UserModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    // Address = model.Address,
+                    Type = UserType.LoggedInUser
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return Ok(new { Message = "Registration successful!!!!" });
+                }
+
+                var errors = result.Errors.Select(e => e.Description).ToList();
+                return BadRequest(result.Errors);
+            }
+
+            return BadRequest(ModelState);
         }
 
         [HttpGet("is-loggedin")]

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +10,14 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  register(email: string, password: string, firstName: string, lastName: string, role = 1) {
-    return this.http.post<any>('register', { email, password, firstName, lastName, role });
+  register(email: string, password: string, firstName: string, lastName: string) {
+    return this.http.post<any>('api/User/register', { email, password, firstName, lastName })
+      .pipe(
+        catchError(error => {
+          const errorMessage = error.error.Errors ? error.error.Errors.join(', ') : 'Registration failed. Please try again.';
+          return throwError(errorMessage);
+        })
+      );
   }
 
   login(email: string, password: string) {
