@@ -7,6 +7,7 @@ import { Category } from '../../models/category.type';
 import { ShoppingCartService } from '../../services/shoppingcart-service/shopping-cart.service';
 import { CartItem } from '../../models/cartitem.type';
 import { AuthService } from '../../services/auth-service/auth.service';
+import { UserService } from '../../services/user-service/user.service';
 
 @Component({
   selector: 'app-product-details',
@@ -19,7 +20,8 @@ export class ProductDetailsComponent implements OnInit {
   category!: Category;
   quantity: number = 1;
   isButtonRed: boolean = false;
-  isLoggedIn: boolean;
+  isLoggedIn!: boolean;
+  userType!: number;
   isDeleteDialogOpen = false;
 
   constructor(
@@ -28,42 +30,71 @@ export class ProductDetailsComponent implements OnInit {
     private categoryService: CategoryService,
     private cartService: ShoppingCartService,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router
-  ) { 
-    this.isLoggedIn = authService.isLoggedIn();
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.loadRoute();
-    this.loadProduct();
+    this.loadData();
   }
 
-  loadRoute(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id !== null) {
-        this.productId = id; 
+  async loadData(): Promise<void> {
+    await this.loadRoute();
+    await this.loadUserInfo();
+    await this.loadProduct();
+
+    console.log(this.isLoggedIn);
+    console.log(this.userType);
+  }
+
+  loadUserInfo(): Promise<void> {
+    return new Promise((resolve) => {
+      this.isLoggedIn = this.authService.isLoggedIn();
+      if (this.isLoggedIn) {
+        this.userService.getUserType().subscribe(userType => {
+          this.userType = userType.valueOf();
+          resolve(); 
+        });
+      } else {
+        this.userType = 2;
+        resolve(); 
       }
     });
   }
 
-  loadProduct(): void {
-    this.productService.fetchProductDetails(this.productId)
-    .subscribe(product => {
-      this.product = product;
-      this.loadCategory(product.categoryId);
-    },error => {
-      console.error('Error fetching product data:', error);
+  loadRoute(): Promise<void> {
+    return new Promise((resolve) => {
+      this.route.paramMap.subscribe(params => {
+        const id = params.get('id');
+        if (id !== null) {
+          this.productId = id; 
+        }
+        resolve(); 
+      });
+    });
+  }
+
+  loadProduct(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.productService.fetchProductDetails(this.productId)
+        .subscribe(product => {
+          this.product = product;
+          this.loadCategory(product.categoryId);
+          resolve(); // Resolve after the product is loaded
+        }, error => {
+          console.error('Error fetching product data:', error);
+          reject(error); // Reject the promise on error
+        });
     });
   }
 
   loadCategory(id: number): void {
     this.categoryService.fetchCategoryDetails(id)
-    .subscribe(category => {
-      this.product.category = category;
-    }, error => {
-      console.error('Error fetching category data:', error);
-    });
+      .subscribe(category => {
+        this.product.category = category;
+      }, error => {
+        console.error('Error fetching category data:', error);
+      });
   }
 
   updateQuantity(change: number): void {

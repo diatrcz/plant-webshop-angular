@@ -72,7 +72,7 @@ namespace PlntsDotCom.Server.Controllers
 
             var userName = _context.Users
                 .Where(u => u.Id == userId)
-                .Select(u => u.UserName)
+                .Select(u => u.FirstName)
                 .FirstOrDefault();
 
             if (userName == null)
@@ -81,6 +81,29 @@ namespace PlntsDotCom.Server.Controllers
             }
 
             return Ok(new { userName }); 
+        }
+
+        [HttpGet("type")]
+        public IActionResult GetUserType()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var userType = _context.Users
+                .Where (u => u.Id == userId)
+                .Select(u => u.Type)
+                .FirstOrDefault();
+
+            if (userType == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { userType });
         }
 
         [HttpPost("logout")]
