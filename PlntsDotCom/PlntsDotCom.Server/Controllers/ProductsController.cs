@@ -106,6 +106,13 @@ namespace PlntsDotCom.Server.Controllers
             return NoContent();
         }
 
+        [HttpPost("add")]
+        public async Task<IActionResult> AddProduct(Product product)
+        {
+            
+            return Ok();
+        }
+
 
     }
 }

@@ -8,6 +8,7 @@ import { ShoppingCartService } from '../../services/shoppingcart-service/shoppin
 import { CartItem } from '../../models/cartitem.type';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { UserService } from '../../services/user-service/user.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-product-details',
@@ -21,8 +22,10 @@ export class ProductDetailsComponent implements OnInit {
   quantity: number = 1;
   isButtonRed: boolean = false;
   isLoggedIn!: boolean;
+  isEditOn: boolean = false;
   userType!: number;
   isDeleteDialogOpen = false;
+  parentCategories!: Category[];
 
   constructor(
     private route: ActivatedRoute, 
@@ -42,6 +45,7 @@ export class ProductDetailsComponent implements OnInit {
     await this.loadRoute();
     await this.loadUserInfo();
     await this.loadProduct();
+    await this.loadParentCategories();
 
     console.log(this.isLoggedIn);
     console.log(this.userType);
@@ -80,10 +84,10 @@ export class ProductDetailsComponent implements OnInit {
         .subscribe(product => {
           this.product = product;
           this.loadCategory(product.categoryId);
-          resolve(); // Resolve after the product is loaded
+          resolve(); 
         }, error => {
           console.error('Error fetching product data:', error);
-          reject(error); // Reject the promise on error
+          reject(error); 
         });
     });
   }
@@ -95,6 +99,16 @@ export class ProductDetailsComponent implements OnInit {
       }, error => {
         console.error('Error fetching category data:', error);
       });
+  }
+
+  async loadParentCategories() {
+    try {
+      const parentCategories = await lastValueFrom(this.categoryService.fetchParentCategories());
+      this.parentCategories = parentCategories ?? []; // Set to empty array if undefined
+    } catch (error) {
+      console.error('Error fetching Parentcategory data:', error);
+      this.parentCategories = [];
+    }
   }
 
   updateQuantity(change: number): void {
@@ -122,6 +136,25 @@ export class ProductDetailsComponent implements OnInit {
     };
     this.cartService.addToCart(cartItem);
     this.quantity = 1;
+  }
+
+  setEdit() {
+    this.isEditOn = !this.isEditOn;
+  }
+
+  updateProduct() {
+    console.log(this.product);
+  
+    this.productService.updateProduct(this.product).subscribe(response => {
+      if (response) {
+        alert('Product edited successfully');
+        console.log("Product update OK");
+      } else {
+        console.error("Error during product update");
+      }
+    });
+  
+    this.setEdit();
   }
 
   openDeleteDialog() {

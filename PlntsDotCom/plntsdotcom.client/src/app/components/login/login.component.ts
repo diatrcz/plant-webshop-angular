@@ -33,7 +33,7 @@ export class LoginComponent {
         },
         error => {
           console.error('Login failed:', error);
-          this.errorMessage = 'Invalid email or password';
+          this.errorMessage = 'Login failed! Invalid email or password';
         }
       );
   }
