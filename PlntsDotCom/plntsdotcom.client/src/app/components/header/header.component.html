@@ -22,6 +22,36 @@
                 </a>
         </span>
             <ul class="flex flex-row items-center justify-start gap-2 lg:gap-8 ">
+                <div *ngIf="userType == 0">
+                    <li class="relative inline-block text-left">
+                        <!-- Dropdown button -->
+                        <button 
+                          (click)="toggleDropdown()" 
+                          class="font-serif font-semibold hover:text-slate-400 xl:text-l whitespace-nowrap flex items-center gap-px" 
+                          type="button" 
+                          aria-expanded="false">
+                          Add
+                        </button>
+                      
+                        <!-- Dropdown menu -->
+                        <div 
+                          *ngIf="dropdownOpen" 
+                          class="absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                          <div class="py-1">
+                            <a 
+                                [routerLink]="['/add', addProduct]"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer">
+                                Product
+                            </a>
+                            <a 
+                                [routerLink]="['/add', addCategory]"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer">
+                                Category
+                            </a>
+                          </div>
+                        </div>
+                    </li>
+                </div>
                 <div *ngIf="isLoggedIn">
                     <li>
                         <p> Hello {{username}} !</p>

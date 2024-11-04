@@ -13,14 +13,22 @@ export class HeaderComponent {
   searchInput: string = '';
   isLoggedIn: boolean;
   username: string = '';
+  dropdownOpen = false;
+  userType!: number;
+  addProduct: string = "product";
+  addCategory: string = "category";
 
   constructor(private router: Router, 
               private authService: AuthService,
-              private userService: UserService) {
+              private userService: UserService
+  ) {
     this.isLoggedIn = this.authService.isLoggedIn();
     console.log(this.isLoggedIn);
     if(this.isLoggedIn) {
       this.getUserName();
+      this.userService.getUserType().subscribe(userType => {
+        this.userType = userType.valueOf();
+      });
     }
   }
 
@@ -46,6 +54,10 @@ export class HeaderComponent {
 
   closeDialog() {
     this.dialogVisible = false;
+  }
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
   }
 
   onSearch() {

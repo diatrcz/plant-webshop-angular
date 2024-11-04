@@ -107,12 +107,47 @@ namespace PlntsDotCom.Server.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddProduct(Product product)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> AddProduct([FromBody] Product product)
         {
-            
-            return Ok();
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            var category = await _context.Categories.FindAsync(product.CategoryId);
+            if (category == null)
+            {
+                return BadRequest("Invalid Category ID.");
+            }
+
+            var newProduct = new Product
+            {
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                CategoryId = product.CategoryId 
+            };
+
+            try
+            {
+                await _context.Products.AddAsync(newProduct);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetProduct), new { id = newProduct.Id }, newProduct);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return StatusCode(500, new { message = "Database error occurred.", details = dbEx.InnerException?.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
 
     }
 }

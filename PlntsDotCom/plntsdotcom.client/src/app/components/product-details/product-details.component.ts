@@ -101,10 +101,10 @@ export class ProductDetailsComponent implements OnInit {
       });
   }
 
-  async loadParentCategories() {
+  async loadParentCategories(): Promise<void> {
     try {
       const parentCategories = await lastValueFrom(this.categoryService.fetchParentCategories());
-      this.parentCategories = parentCategories ?? []; // Set to empty array if undefined
+      this.parentCategories = parentCategories ?? []; 
     } catch (error) {
       console.error('Error fetching Parentcategory data:', error);
       this.parentCategories = [];

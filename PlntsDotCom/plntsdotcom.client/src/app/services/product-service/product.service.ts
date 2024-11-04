@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product.type';
 import { Filter } from '../../models/filter.type';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +35,18 @@ export class ProductService {
     return this.http.post<Product[]>('api/products/edit', product);
   }
 
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>('api/products/add', product).pipe(
+        catchError(error => {
+            // Optionally, log the error or format it
+            console.error('Error adding product:', error);
+            return throwError('Failed to add product. Please try again later.');
+        })
+    );
+}
+
   deleteProduct(id: number): Observable<any> {
     return this.http.delete(`api/products/delete/${id}`);
   }
+
 }
