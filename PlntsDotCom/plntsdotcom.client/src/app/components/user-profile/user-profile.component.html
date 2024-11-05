@@ -1,2 +1,54 @@
 <app-header></app-header>
+<div *ngIf="userInfo" class="bg-white max-w-lg mx-auto my-8 rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">User Information</h2>
+  
+    <div class="mb-4">
+      <span class="block text-sm font-medium text-gray-600">Name:</span>
+      <span class="text-lg text-gray-800">{{ userInfo.firstName || 'Not provided' }} {{ userInfo.lastName || '' }}</span>
+    </div>
+  
+    <div class="mb-4">
+      <span class="block text-sm font-medium text-gray-600">Email:</span>
+      <span class="text-lg text-gray-800">{{ userInfo.email }}</span>
+      <span *ngIf="!userInfo.emailConfirmed" class="text-sm text-yellow-500">(Unconfirmed)</span>
+    </div>
+  
+    <div class="mb-4">
+      <span class="block text-sm font-medium text-gray-600">Username:</span>
+      <span class="text-lg text-gray-800">{{ userInfo.userName }}</span>
+    </div>
+  
+    <div class="mb-4">
+      <span class="block text-sm font-medium text-gray-600">Address:</span>
+      <span class="text-lg text-gray-400 italic">{{ userInfo.address || 'Not Provided' }}</span>
+    </div>
+  
+    <div class="mb-4">
+      <span class="block text-sm font-medium text-gray-600">Phone Number:</span>
+      <span class="text-lg text-gray-400 italic">{{ userInfo.phoneNumber || 'Not Provided' }}</span>
+    </div>
+  
+    <div class="mb-6">
+      <span class="block text-sm font-medium text-gray-600">Two-Factor Authentication:</span>
+      <span class="text-lg" [ngClass]="userInfo.twoFactorEnabled ? 'text-green-500' : 'text-gray-500'">
+        {{ userInfo.twoFactorEnabled ? 'Enabled' : 'Disabled' }}
+      </span>
+    </div>
+  
+    <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Orders</h3>
+    <ul *ngIf="userInfo.orders?.length; else noOrders" class="list-disc list-inside text-gray-600 mb-6">
+      <li *ngFor="let order of userInfo.orders">Order ID: {{ order.id }}</li>
+    </ul>
+    <ng-template #noOrders>
+      <p class="text-gray-500">No orders available</p>
+    </ng-template>
+  
+    <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Wishlist</h3>
+    <ul *ngIf="userInfo.wishlistItems?.length; else noWishlist" class="list-disc list-inside text-gray-600">
+      <li *ngFor="let item of userInfo.wishlistItems">Wishlist Item ID: {{ item.id }}</li>
+    </ul>
+    <ng-template #noWishlist>
+      <p class="text-gray-500">No wishlist items</p>
+    </ng-template>
+  </div>  
 <button (click)="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md mt-4">Logout</button>

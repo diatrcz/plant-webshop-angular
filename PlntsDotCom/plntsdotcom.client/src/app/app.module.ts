@@ -21,6 +21,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { NotificationComponent } from './components/notification/notification.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { AddProductComponent } from './components/add-product/add-product.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { AddProductComponent } from './components/add-product/add-product.compon
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    //ToastrModule.forRoot(),
+    BrowserAnimationsModule 
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

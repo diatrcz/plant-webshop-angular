@@ -5,6 +5,8 @@ import { Product } from '../../models/product.type';
 import { ProductService } from '../../services/product-service/product.service';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -31,17 +33,25 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   loadCartItems(): void {
+    // Load cart items from local storage
     this.cartItems = this.cartService.getCartFromLocalStorage();
-    this.cartItems.forEach((item) => {
-      this.productService.fetchProductDetails(item.id.toString())
-      .subscribe(product => {
-        product.quantity = item.quantity;
-        this.products.push(product);
-        this.total += product.quantity! * product.price;
-      });
-    });
 
-    this.cartItems = this.cartItems.sort((a: CartItem, b: CartItem) => a.id - b.id);
+    // Create an array of observables to fetch product details for each cart item
+    const productObservables = this.cartItems.map((item) =>
+      this.productService.fetchProductDetails(item.id.toString()).pipe(
+        map((product: Product) => ({
+          ...product,
+          quantity: item.quantity
+        }))
+      )
+    );
+
+    // Use forkJoin to wait until all product details are fetched
+    forkJoin<Product[]>(productObservables).subscribe((products) => {
+      // Set fetched products, sort by ID, and calculate the total
+      this.products = products.sort((a, b) => a.id - b.id);
+      this.total = this.products.reduce((sum, product) => sum + (product.quantity! * product.price), 0);
+    });
   }
 
   removeItem(productId: number): void {

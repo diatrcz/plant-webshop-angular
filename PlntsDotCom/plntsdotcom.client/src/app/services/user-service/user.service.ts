@@ -39,4 +39,9 @@ export class UserService {
       map(response => response.userType)
     );
   }
+
+  getUserInfo(): Observable<any> {
+    return this.http.get<any>('api/User/user');
+  }
+  
 }

@@ -106,6 +106,23 @@ namespace PlntsDotCom.Server.Controllers
             return Ok(new { userType });
         }
 
+        [HttpGet("user")]
+        public IActionResult GetUserInfo()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = _context.Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            return Ok(new { user });
+        }
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
