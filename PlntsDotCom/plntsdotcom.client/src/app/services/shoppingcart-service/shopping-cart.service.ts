@@ -32,4 +32,13 @@ export class ShoppingCartService {
 
     this.saveCartToLocalStorage(cartItems);
   }
+
+  clearCart(): void {
+    try {
+      localStorage.removeItem('cartItems');
+      console.log('Cart cleared successfully');
+    } catch (e) {
+      console.error('Error clearing cart from localStorage', e);
+    }
+  }
 }

@@ -1,4 +1,7 @@
 export interface OrderedItem {
-    id: number;
-    // Add any properties specific to OrderedItem if needed
-  }
+  productId: number;
+  productName: string;
+  quantity: number;
+  unitPrice: number;
+  subtotal: number;
+}

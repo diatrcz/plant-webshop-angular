@@ -7,6 +7,8 @@ import { AuthService } from '../../services/auth-service/auth.service';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OrderService } from '../../services/order-service/order.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -22,8 +24,10 @@ export class ShoppingCartComponent implements OnInit {
   constructor(
     private cartService: ShoppingCartService,
     private productService: ProductService,
+    private orderService: OrderService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.isLoggedIn = authService.isLoggedIn();
   }
@@ -86,12 +90,28 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   placeOrder() {
-    if(this.isLoggedIn) {
-      console.log("Ok");
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/login']);
+      return;
     }
-    else {
-      this.router.navigate(['/login-user']);
-    }
+
+    this.orderService.placeOrder(this.cartItems).subscribe({
+      next: (response) => {
+        this.snackBar.open('Order placed successfully!', 'Close', { 
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+        this.router.navigate(['/order', response.orderId]);
+      },
+      error: (error) => {
+        this.snackBar.open('Failed to place order: ' + error.message, 'Close', { 
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+      }
+    });
   }
 
 }

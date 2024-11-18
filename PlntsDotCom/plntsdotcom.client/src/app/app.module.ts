@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+//import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component';
@@ -21,8 +24,9 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { NotificationComponent } from './components/notification/notification.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { AddProductComponent } from './components/add-product/add-product.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//import { ToastrModule } from 'ngx-toastr';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
+
 
 @NgModule({
   declarations: [
@@ -41,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UserProfileComponent,
     NotificationComponent,
     AddProductComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -49,10 +54,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     ReactiveFormsModule,
     //ToastrModule.forRoot(),
-    BrowserAnimationsModule 
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

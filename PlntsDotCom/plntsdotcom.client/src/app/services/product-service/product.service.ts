@@ -38,7 +38,6 @@ export class ProductService {
   addProduct(product: Product): Observable<Product> {
     return this.http.post<Product>('api/products/add', product).pipe(
         catchError(error => {
-            // Optionally, log the error or format it
             console.error('Error adding product:', error);
             return throwError('Failed to add product. Please try again later.');
         })
