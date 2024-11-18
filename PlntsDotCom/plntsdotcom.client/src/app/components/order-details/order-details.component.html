@@ -47,13 +47,13 @@
                   <div class="text-sm text-gray-900">{{item.product?.name}}</div>
                 </td>
                 <td class="px-4 py-4 text-right text-sm text-gray-500">
-                  ${{item.product?.price}}
+                  {{item.product?.price}} Ft
                 </td>
                 <td class="px-4 py-4 text-right text-sm text-gray-500">
                   {{item.quantity}}
                 </td>
                 <td class="px-4 py-4 text-right text-sm text-gray-900">
-                  ${{item.product?.price! * item.quantity}}
+                  {{item.product?.price! * item.quantity}} Ft
                 </td>
               </tr>
             </tbody>

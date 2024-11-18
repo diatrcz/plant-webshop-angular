@@ -26,6 +26,8 @@ import { AuthInterceptor } from './auth.interceptor';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
     UserProfileComponent,
     NotificationComponent,
     AddProductComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    OrdersComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,

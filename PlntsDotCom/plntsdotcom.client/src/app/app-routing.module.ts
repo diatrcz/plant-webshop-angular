@@ -10,6 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { OrdersComponent } from './components/orders/orders.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'register-user', component: RegisterComponent},
   { path: 'user-profile', component: UserProfileComponent},
   { path: 'add/:type', component: AddProductComponent},
-  { path: 'order/:id', component: OrderDetailsComponent }
+  { path: 'order/:id', component: OrderDetailsComponent },
+  { path: 'orders', component: OrdersComponent}
 ];
 
 @NgModule({

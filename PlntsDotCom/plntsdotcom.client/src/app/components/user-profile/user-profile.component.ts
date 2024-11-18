@@ -2,44 +2,88 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { UserService } from '../../services/user-service/user.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../../models/user.type';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
-export class UserProfileComponent implements OnInit{
-  userInfo: any;
+export class UserProfileComponent implements OnInit {
+  user: User | null = null;
+  isEditing = false;
+  isLoading = true;
+  error: string | null = null;
+  profileForm: FormGroup;
 
-  constructor(private authService: AuthService, 
-              private userService: UserService,
-              private router: Router
-  ) { }
-
-  async ngOnInit(): Promise<void> {
-    await this.loadUserInfo();
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.profileForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: [''],
+      phoneNumber: [''],
+      address: ['']
+    });
   }
 
-  async loadUserInfo(): Promise<void> {
-    try {
-      this.userInfo = await this.userService.getUserInfo().toPromise();
-      console.log('User info:', this.userInfo);
-    } catch (error) {
-      console.error('Error fetching user info:', error);
+  ngOnInit(): void {
+    this.loadUserInfo();
+  }
+
+  loadUserInfo(): void {
+    this.isLoading = true;
+    this.userService.getUserInfo().subscribe({
+      next: (response) => {
+        this.user = response.user;
+        if (this.user) {
+          this.profileForm.patchValue({
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            phoneNumber: this.user.phoneNumber,
+            address: this.user.address
+          });
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading user info:', error);
+        this.error = 'Failed to load user information';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  toggleEdit(): void {
+    this.isEditing = !this.isEditing;
+    if (!this.isEditing && this.user) {
+      this.profileForm.patchValue({
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        phoneNumber: this.user.phoneNumber,
+        address: this.user.address
+      });
     }
   }
 
-  logout() {
-    this.userService.logout().subscribe(
-      response => {
-        this.authService.clearLoggedInUser();
-        console.log("out");
-        this.router.navigate(['/main']);
-
-      }, 
-      error => {
-        console.error('Logout failed:', error);
-      }
-    );
+  onSubmit(): void {
+    if (this.profileForm.valid && this.user) {
+      const updatedData = this.profileForm.value;
+      this.userService.updateUserInfo(updatedData).subscribe({
+        next: () => {
+          if (this.user) {
+            this.user = { ...this.user, ...updatedData };
+          }
+          this.isEditing = false;
+        },
+        error: (error) => {
+          console.error('Error updating profile:', error);
+        }
+      });
+    }
   }
 }
