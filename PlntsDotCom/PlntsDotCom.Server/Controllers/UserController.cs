@@ -174,5 +174,113 @@ namespace PlntsDotCom.Server.Controllers
 
             return Ok();
         }
+
+        [HttpGet("wishlist")]
+        public async Task<IActionResult> GetWishlist()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var wishlistItems = await _context.Wishlists
+                .Include(w => w.Product)
+                .Where(w => w.UserId == userId)
+                .Select(w => new
+                {
+                    WishlistId = w.Id,
+                    ProductId = w.ProductId,
+                    w.Product.Name,
+                    w.Product.Price,
+                    w.Product.ImageUrl,
+                    w.Product.Description,
+                    AddedDate = w.AddedDate
+                })
+                .OrderByDescending(w => w.AddedDate)
+                .ToListAsync();
+
+            return Ok(wishlistItems);
+        }
+
+        // Add item to wishlist
+        [HttpPost("wishlist/add/{productId}")]
+        public async Task<IActionResult> AddToWishlist(int productId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            // Check if product exists
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                return NotFound("Product not found");
+            }
+
+            // Check if already in wishlist
+            var existingItem = await _context.Wishlists
+                .FirstOrDefaultAsync(w => w.UserId == userId && w.ProductId == productId);
+
+            if (existingItem != null)
+            {
+                return BadRequest("Item already in wishlist");
+            }
+
+            // Add to wishlist
+            var wishlistItem = new Wishlist
+            {
+                UserId = userId,
+                ProductId = productId,
+                AddedDate = DateTime.UtcNow
+            };
+
+            _context.Wishlists.Add(wishlistItem);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Added to wishlist", WishlistId = wishlistItem.Id });
+        }
+
+        // Remove item from wishlist
+        [HttpDelete("wishlist/remove/{productId}")]
+        public async Task<IActionResult> RemoveFromWishlist(int productId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var wishlistItem = await _context.Wishlists
+                .FirstOrDefaultAsync(w => w.UserId == userId && w.ProductId == productId);
+
+            if (wishlistItem == null)
+            {
+                return NotFound("Item not found in wishlist");
+            }
+
+            _context.Wishlists.Remove(wishlistItem);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Removed from wishlist" });
+        }
+
+        // Optional: Check if item is in wishlist
+        [HttpGet("wishlist/check/{productId}")]
+        public async Task<IActionResult> CheckWishlistItem(int productId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var exists = await _context.Wishlists
+                .AnyAsync(w => w.UserId == userId && w.ProductId == productId);
+
+            return Ok(new { IsInWishlist = exists });
+        }
     }
 }

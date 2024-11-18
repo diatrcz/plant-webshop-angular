@@ -1,0 +1,54 @@
+<app-header></app-header>
+<main class="mx-auto max-w-[120rem] mt-1"S>
+    <!-- Wishlist Content -->
+    <div class="w-full">
+        <h1 class="my-6 text-center md:mb-14 md:mt-6 font-serif font-semibold text-3xl">My Wishlist</h1>
+
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="text-center py-8">
+            <div class="inline-block w-8 h-8 border-4 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+            <p class="mt-2 text-gray-600">Loading your wishlist...</p>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="error" class="text-center py-8">
+            <p class="text-red-500">{{ error }}</p>
+            <button 
+                (click)="loadWishlist()"
+                class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+                Try Again
+            </button>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!isLoading && !error && wishlistItems.length === 0" class="text-center py-8">
+            <p class="text-gray-600 mb-4">Your wishlist is empty</p>
+            <button 
+                (click)="navigateToProductList()"
+                class="px-6 py-2 bg-lime-500 text-white rounded-full hover:bg-lime-600 transition-colors">
+                Browse Products
+            </button>
+        </div>
+
+        <!-- Wishlist Items Grid -->
+        <div class="grid-container flex h-full flex-row justify-between px-3 md:px-0">
+            <span class="flex-none self-end pb-3 xl:pb-8">
+                <span class="flex flex-none flex-col flex-nowrap justify-end"></span>
+            </span>
+            <div class="hidden md:flex"></div>
+        </div>
+        <div *ngIf="!isLoading && !error && wishlistItems.length > 0" 
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <div *ngFor="let item of wishlistItems" class="relative group">
+                <app-product-list-item 
+                    [productId]="item.id" 
+                    [name]="item.name" 
+                    [category]="item.category?.name" 
+                    [price]="item.price" 
+                    [imageUrl]="item.imageUrl || 'https://placehold.co/250x350'"
+                >
+                </app-product-list-item>
+            </div>
+        </div>
+    </div>
+</main>

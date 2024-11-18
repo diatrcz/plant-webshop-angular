@@ -26,6 +26,8 @@ export class ProductDetailsComponent implements OnInit {
   userType!: number;
   isDeleteDialogOpen = false;
   parentCategories!: Category[];
+  isInWishlist: boolean = false;
+  isWishlistLoading: boolean = false;
 
   constructor(
     private route: ActivatedRoute, 
@@ -46,9 +48,9 @@ export class ProductDetailsComponent implements OnInit {
     await this.loadUserInfo();
     await this.loadProduct();
     await this.loadParentCategories();
-
-    console.log(this.isLoggedIn);
-    console.log(this.userType);
+    if (this.isLoggedIn) {
+      await this.checkWishlistStatus();
+    }
   }
 
   loadUserInfo(): Promise<void> {
@@ -175,6 +177,54 @@ export class ProductDetailsComponent implements OnInit {
     );
 
     this.router.navigate(['/main']);
+  }
+
+  private checkWishlistStatus(): Promise<void> {
+    return new Promise((resolve) => {
+      this.userService.checkWishlistItem(Number(this.productId)).subscribe({
+        next: (response) => {
+          this.isInWishlist = response.isInWishlist;
+          resolve();
+        },
+        error: (error) => {
+          console.error('Error checking wishlist status:', error);
+          resolve();
+        }
+      });
+    });
+  }
+
+  toggleWishlist() {
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/login-user']);
+      return;
+    }
+
+    this.isWishlistLoading = true;
+
+    if (this.isInWishlist) {
+      this.userService.removeFromWishlist(Number(this.productId)).subscribe({
+        next: () => {
+          this.isInWishlist = false;
+          this.isWishlistLoading = false;
+        },
+        error: (error) => {
+          console.error('Error removing from wishlist:', error);
+          this.isWishlistLoading = false;
+        }
+      });
+    } else {
+      this.userService.addToWishlist(Number(this.productId)).subscribe({
+        next: () => {
+          this.isInWishlist = true;
+          this.isWishlistLoading = false;
+        },
+        error: (error) => {
+          console.error('Error adding to wishlist:', error);
+          this.isWishlistLoading = false;
+        }
+      });
+    }
   }
 
 }

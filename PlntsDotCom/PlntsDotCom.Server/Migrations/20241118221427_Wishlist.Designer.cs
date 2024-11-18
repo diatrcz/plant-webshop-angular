@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlntsDotCom.Server.Data;
 
@@ -11,9 +12,11 @@ using PlntsDotCom.Server.Data;
 namespace PlntsDotCom.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118221427_Wishlist")]
+    partial class Wishlist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -415,9 +418,14 @@ namespace PlntsDotCom.Server.Migrations
                     b.Property<int?>("Stock")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
 
@@ -893,6 +901,10 @@ namespace PlntsDotCom.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PlntsDotCom.Server.Data.User", null)
+                        .WithMany("WishlistItems")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Category");
                 });
 
@@ -905,7 +917,7 @@ namespace PlntsDotCom.Server.Migrations
                         .IsRequired();
 
                     b.HasOne("PlntsDotCom.Server.Data.User", "User")
-                        .WithMany("WishlistItems")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

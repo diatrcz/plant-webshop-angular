@@ -11,6 +11,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
 import { OrdersComponent } from './components/orders/orders.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
@@ -24,7 +25,8 @@ const routes: Routes = [
   { path: 'user-profile', component: UserProfileComponent},
   { path: 'add/:type', component: AddProductComponent},
   { path: 'order/:id', component: OrderDetailsComponent },
-  { path: 'orders', component: OrdersComponent}
+  { path: 'orders', component: OrdersComponent},
+  { path: 'wishlist', component: WishlistComponent}
 ];
 
 @NgModule({

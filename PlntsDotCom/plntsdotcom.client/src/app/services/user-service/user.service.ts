@@ -42,6 +42,34 @@ export class UserService {
     );
   }
 
+  getWishlist() {
+    return this.http.get<any>(`api/User/wishlist`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  addToWishlist(productId: number) {
+    return this.http.post<any>(`api/User/wishlist/add/${productId}`, {})
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  removeFromWishlist(productId: number) {
+    return this.http.delete<any>(`api/User/wishlist/remove/${productId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  checkWishlistItem(productId: number) {
+    return this.http.get<{isInWishlist: boolean}>(`api/User/wishlist/check/${productId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   getUserInfo() {
     return this.http.get<any>(`api/User/user`)
       .pipe(

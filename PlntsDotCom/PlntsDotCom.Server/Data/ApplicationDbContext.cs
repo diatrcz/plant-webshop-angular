@@ -19,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Review> Reviews => Set<Review>();
     public DbSet<Status> Statuses => Set<Status>();
+    public DbSet<Wishlist> Wishlists => Set<Wishlist>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

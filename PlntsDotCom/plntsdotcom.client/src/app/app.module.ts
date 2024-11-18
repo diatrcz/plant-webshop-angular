@@ -28,6 +28,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     AddProductComponent,
     OrderDetailsComponent,
     OrdersComponent,
-    SidenavComponent
+    SidenavComponent,
+    WishlistComponent
   ],
   imports: [
     BrowserModule,

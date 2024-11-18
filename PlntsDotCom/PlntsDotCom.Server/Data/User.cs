@@ -16,7 +16,7 @@ public class User: IdentityUser
 
     public ICollection<Order>? Orders { get; set; } = new List<Order>();
 
-    public ICollection<Product>? WishlistItems { get; set; } = new List<Product>();
+    public ICollection<Wishlist> WishlistItems { get; set; } = new List<Wishlist>();
 }
 
 
