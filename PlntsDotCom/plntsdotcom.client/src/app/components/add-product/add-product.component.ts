@@ -84,14 +84,11 @@ export class AddProductComponent implements OnInit {
   addProduct(): void {
     this.productService.addProduct(this.product).subscribe(
       (response) => {
-        // Handle the successful response here
-        //this.toastr.success('Product added successfully!'); // Optional notification
+        //this.toastr.success('Product added successfully!'); 
         console.log('Product added:', response);
-        // Optionally reset the product form or navigate away
       },
       (error) => {
-        // Handle the error response here
-        //this.toastr.error('Failed to add product.'); // Optional notification
+        //this.toastr.error('Failed to add product.'); 
         console.error('Error adding product:', error);
       }
     );
